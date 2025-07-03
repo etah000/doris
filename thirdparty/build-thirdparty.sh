@@ -70,7 +70,7 @@ KERNEL="$(uname -s)"
 if [[ "${KERNEL}" == 'Darwin' ]]; then
     PARALLEL="$(($(sysctl -n hw.logicalcpu) / 4 + 1))"
 else
-    PARALLEL="$(($(nproc) / 4 + 1))"
+    PARALLEL="$(($(nproc) - 2 ))"
 fi
 
 BUILD_AZURE="ON"
@@ -833,7 +833,7 @@ build_brpc() {
     LDFLAGS="${ldflags}" \
         "${CMAKE_CMD}" -G "${GENERATOR}" -DBUILD_SHARED_LIBS=ON -DWITH_GLOG=ON -DCMAKE_INSTALL_PREFIX="${TP_INSTALL_DIR}" \
         -DCMAKE_LIBRARY_PATH="${TP_INSTALL_DIR}/lib64" -DCMAKE_INCLUDE_PATH="${TP_INSTALL_DIR}/include" \
-        -DBUILD_BRPC_TOOLS=OFF \
+        -DBUILD_BRPC_TOOLS=OFF -DWITH_SNAPPY=ON \
         -DPROTOBUF_PROTOC_EXECUTABLE="${TP_INSTALL_DIR}/bin/protoc" ..
 
     "${BUILD_SYSTEM}" -j "${PARALLEL}"
@@ -1076,6 +1076,7 @@ build_arrow() {
         -DThrift_SOURCE=SYSTEM \
         -DThrift_ROOT="${TP_INSTALL_DIR}" ..
 
+    
     "${BUILD_SYSTEM}" -j "${PARALLEL}"
     "${BUILD_SYSTEM}" install
 

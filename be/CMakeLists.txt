@@ -273,7 +273,6 @@ set(CMAKE_C_STANDARD 17)
 add_compile_options(-g
                     -Wall
                     -Wextra
-                    -Werror
                     -pthread
                     -fstrict-aliasing
                     -fno-omit-frame-pointer
@@ -680,7 +679,7 @@ endif()
 
 if (NOT OS_MACOSX)
     set(DORIS_LINK_LIBS ${DORIS_LINK_LIBS}
-        -lrt -l:libbfd.a -liberty -lc -lm -ldl -pthread
+        -lrt -l:libbfd.a -lsframe -liberty -lc -lm -ldl -pthread
     )
 else()
     set(DORIS_LINK_LIBS ${DORIS_LINK_LIBS}
