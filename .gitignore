@@ -1,4 +1,5 @@
 # ignore file with wildcard anywhere
+*.marscode
 *.swo
 *.swp
 *.pyc
